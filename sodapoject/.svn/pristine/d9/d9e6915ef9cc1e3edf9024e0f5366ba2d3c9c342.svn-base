@@ -1,0 +1,72 @@
+package com.soda.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.soda.entity.Survey;
+import com.soda.service.SurveyService;
+import com.soda.service.impl.SurveyServiceImpl;
+
+
+
+public class SynopsisServlet extends HttpServlet {
+	private SurveyService ss = new SurveyServiceImpl();
+
+
+	private SurveyService s=new SurveyServiceImpl();
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setCharacterEncoding("utf-8");
+		String gansha = request.getParameter("gansha");
+		System.out.println(gansha);
+		
+		
+		if("show".equals(gansha)){
+			this.show(request,response);
+		}else if("update".equals(gansha)){
+			this.update(request,response);
+		}else{
+			System.out.println("ÓÐ´íÎó");
+		}
+		
+		
+	}
+
+
+	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+		int id=Integer.parseInt(request.getParameter("sy_id"));
+		String content=request.getParameter("sy_content");
+		int type=Integer.parseInt(request.getParameter("sy_type"));
+		
+		int num = ss.updateContent(content,3);
+		if(num>0){
+			this.show(request, response);
+		}
+		
+	}
+
+
+	private void show(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		Survey synopsis = ss.getSurvey(3);
+		request.setAttribute("synopsis", synopsis);
+		//System.out.println(synopsis.getSy_title());
+		request.getRequestDispatcher("houtai/pages/publicityManage/synopsis.jsp").forward(request, response);
+		
+	}
+
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+
+	}
+
+}

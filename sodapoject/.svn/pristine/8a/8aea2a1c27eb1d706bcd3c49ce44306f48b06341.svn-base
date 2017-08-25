@@ -1,0 +1,152 @@
+package com.soda.entity;
+
+public class User {
+	private Integer ur_id;
+	private String ur_name;
+	private String ur_loginName;
+	private String ur_password;
+	private String ur_idcard;
+	private String ur_phone;
+	private Integer ur_sex;
+	private String ur_address;
+	private String ur_email;
+	private Integer ur_state;
+	private Integer ur_status;
+	private String ur_other1;
+	private String ur_other2;
+	private Role role;//role外键约束ur_roleId
+	public User() {
+		super();
+	}
+	public User(Integer ur_id, String ur_name, String ur_loginName,
+			String ur_password, String ur_idcard, String ur_phone,
+			Integer ur_sex, String ur_address, String ur_email,
+			Integer ur_state, Integer ur_status, String ur_other1,
+			String ur_other2) {
+		super();
+		this.ur_id = ur_id;
+		this.ur_name = ur_name;
+		this.ur_loginName = ur_loginName;
+		this.ur_password = ur_password;
+		this.ur_idcard = ur_idcard;
+		this.ur_phone = ur_phone;
+		this.ur_sex = ur_sex;
+		this.ur_address = ur_address;
+		this.ur_email = ur_email;
+		this.ur_state = ur_state;
+		this.ur_status = ur_status;
+		this.ur_other1 = ur_other1;
+		this.ur_other2 = ur_other2;
+	}
+	public User(Integer ur_id, String ur_name, String ur_loginName,
+			String ur_password, String ur_idcard, String ur_phone,
+			Integer ur_sex, String ur_address, String ur_email,
+			Integer ur_state, Integer ur_status, String ur_other1,
+			String ur_other2, Role role) {
+		super();
+		this.ur_id = ur_id;
+		this.ur_name = ur_name;
+		this.ur_loginName = ur_loginName;
+		this.ur_password = ur_password;
+		this.ur_idcard = ur_idcard;
+		this.ur_phone = ur_phone;
+		this.ur_sex = ur_sex;
+		this.ur_address = ur_address;
+		this.ur_email = ur_email;
+		this.ur_state = ur_state;
+		this.ur_status = ur_status;
+		this.ur_other1 = ur_other1;
+		this.ur_other2 = ur_other2;
+		this.role = role;
+	}
+	public User(int i, String ur_loginName2, String ur_password2) {
+		// TODO Auto-generated constructor stub
+	}
+	public Integer getUr_id() {
+		return ur_id;
+	}
+	public void setUr_id(Integer ur_id) {
+		this.ur_id = ur_id;
+	}
+	public String getUr_name() {
+		return ur_name;
+	}
+	public void setUr_name(String ur_name) {
+		this.ur_name = ur_name;
+	}
+	public String getUr_loginName() {
+		return ur_loginName;
+	}
+	public void setUr_loginName(String ur_loginName) {
+		this.ur_loginName = ur_loginName;
+	}
+	public String getUr_password() {
+		return ur_password;
+	}
+	public void setUr_password(String ur_password) {
+		this.ur_password = ur_password;
+	}
+	public String getUr_idcard() {
+		return ur_idcard;
+	}
+	public void setUr_idcard(String ur_idcard) {
+		this.ur_idcard = ur_idcard;
+	}
+	public String getUr_phone() {
+		return ur_phone;
+	}
+	public void setUr_phone(String ur_phone) {
+		this.ur_phone = ur_phone;
+	}
+	public Integer getUr_sex() {
+		return ur_sex;
+	}
+	public void setUr_sex(Integer ur_sex) {
+		this.ur_sex = ur_sex;
+	}
+	public String getUr_address() {
+		return ur_address;
+	}
+	public void setUr_address(String ur_address) {
+		this.ur_address = ur_address;
+	}
+	public String getUr_email() {
+		return ur_email;
+	}
+	public void setUr_email(String ur_email) {
+		this.ur_email = ur_email;
+	}
+	public Integer getUr_state() {
+		return ur_state;
+	}
+	public void setUr_state(Integer ur_state) {
+		this.ur_state = ur_state;
+	}
+	public Integer getUr_status() {
+		return ur_status;
+	}
+	public void setUr_status(Integer ur_status) {
+		this.ur_status = ur_status;
+	}
+	public String getUr_other1() {
+		return ur_other1;
+	}
+	public void setUr_other1(String ur_other1) {
+		this.ur_other1 = ur_other1;
+	}
+	public String getUr_other2() {
+		return ur_other2;
+	}
+	public void setUr_other2(String ur_other2) {
+		this.ur_other2 = ur_other2;
+	}
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	
+  
+}
+

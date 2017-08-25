@@ -1,0 +1,28 @@
+package com.soda.service.impl;
+
+import java.util.List;
+
+import com.soda.dao.RoleDao;
+import com.soda.dao.impl.RoleDaoImpl;
+import com.soda.entity.ConditionInfo;
+import com.soda.entity.Role;
+import com.soda.service.*;
+
+
+
+public class RoleServiceImpl implements RoleService{
+	private RoleDao rd=new RoleDaoImpl();
+	@Override
+	public Integer getTotalPages(ConditionInfo cf) {
+		// TODO Auto-generated method stub
+		return rd.getTotalPages(cf);
+	}
+	//全查
+	@Override
+	public List<Role> selectRoles(ConditionInfo cf) {
+		// TODO Auto-generated method stub
+		return rd.selectRoles(cf);
+	}
+	
+}
+

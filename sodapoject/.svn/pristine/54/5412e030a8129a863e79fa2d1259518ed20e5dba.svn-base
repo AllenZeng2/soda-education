@@ -1,0 +1,220 @@
+<%@page import="com.soda.entity.User"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+
+<html>
+<head>
+<base href="<base href="<%=basePath%>">">
+<title>soda创业教育平台</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="${pageContext.request.contextPath}/houtai/css/style.css" rel="stylesheet"
+	type="text/css" />
+<link rel="StyleSheet" href="${pageContext.request.contextPath}/houtai/css/dtree.css"
+	type="text/css" />
+<script type="text/javascript" src="${pageContext.request.contextPath}/houtai/js/dtree.js"></script>
+<script type="text/javascript">
+function mainMethod(){
+	window.location='login.jsp';
+
+}
+
+function loginOut(){
+	location.href="${pageContext.request.contextPath}/LoginOutServlet?param=houtai";
+}
+</script>
+</head>
+<body scroll="no">
+
+<form name="myform" action="${pageContext.request.contextPath}/UserServlet" method="post">
+	<input type="hidden" id="uid" value="${user.ur_id }"/>
+	<table width="100%" height="100%" border="0" cellpadding="0"
+		cellspacing="0" name="mainTable">
+		<tr>
+			<td height="79" background="${pageContext.request.contextPath}/houtai/images/top_bg.gif"><table
+					width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td width="500"><img
+							src="${pageContext.request.contextPath}/houtai/images/top_left.jpg" width="500"
+							height="79">
+						</td>
+						<td>&nbsp;</td>
+						<td width="500" height="79"><table width="100%" border="0"
+								cellspacing="0" cellpadding="0" name="mainTable2">
+								<tr>
+									<td><img src="${pageContext.request.contextPath}/houtai/images/top_right_a.gif"
+										width="500" height="47">
+									</td>
+								</tr>
+								<tr>
+									<td><table width="500" border="0" cellspacing="0"
+											cellpadding="0" name="mainTable3">
+											<tr>
+
+												<td width="150"><img
+													src="${pageContext.request.contextPath}/houtai/images/top_right_b1.gif"
+													width="150" height="32">
+												</td>
+												<td width="146" height="32"
+													background="${pageContext.request.contextPath}/houtai/images/top_right_b2.gif"
+													class="white">用户：${user.ur_loginName }</td>
+												<!-- 账号管理 -->
+												<td width="74"><a
+													href="${pageContext.request.contextPath}/houtai/pages/based/passwd.jsp"
+													target="page" name="account"><img
+														src="${pageContext.request.contextPath}/houtai/images/top_right_b6.gif"
+														width="74" height="32" border="0">
+												</a>
+												</td>
+												<!-- 注销 -->
+												<td width="50"><a href="Javascript:loginOut()" name="logout"> <img
+														src="${pageContext.request.contextPath}/houtai/images/top_right_b3.gif"
+														width="50" height="32" border="0">
+												</a>
+												</td>
+
+												<td width="50"><a href="#" name="help"> <img
+														src="${pageContext.request.contextPath}/houtai/images/top_right_b4.gif"
+														width="50" height="32" border="0">
+												</a>
+												</td>
+
+												<td width="30"><img
+													src="${pageContext.request.contextPath}/houtai/images/top_right_b5.gif"
+													width="30" height="32">
+												</td>
+
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td height="100%"><table width="100%" height="100%" border="0"
+					cellspacing="0" cellpadding="0"
+					style="background-repeat: repeat-x;">
+					<tr>
+						<td width="175" height="100%" valign="top"><table width="175"
+								height="100%" border="0" cellspacing="0" cellpadding="0"
+								background="${pageContext.request.contextPath}/houtai/images/menu_bg.gif">
+								<tr>
+									<td height="25"><img
+										src="${pageContext.request.contextPath}/houtai/images/menu_top.gif" width="175"
+										height="25">
+									</td>
+								</tr>
+						
+								   
+								   
+								<tr>
+									<td height="100%"
+										style="background-image:url(${pageContext.request.contextPath}/houtai/images/menu_bgT.gif); 
+             						   background-repeat:no-repeat"
+										valign="top"><div class="dtree">
+											<script type="text/javascript">
+					var user = "${user }";	
+					var role="${user.role}"	;
+					var fmenus="${user.role.fmenu}";
+					d = new dTree('d');
+					d.config.stepDepth = 1;
+					d.config.useStatusText = true;
+					
+					d.add(0,-1,' <strong>后台管理</strong>');
+					for(var i=0;i<fmenus.length;i++){
+						if(fmenus[i]==1){
+							d.add(1,0,'系统管理');
+							break;
+						}
+					}
+					for(var i=0;i<fmenus.length;i++){
+						if(fmenus[i]==4){
+							d.add(5,0,'权限管理');
+							break;
+						}
+					}
+					for(var i=0;i<fmenus.length;i++){
+						if(fmenus[i]==5){
+							d.add(4,0,'课程管理');
+							break;
+						}
+					}
+					
+
+					for(var i=0;i<fmenus.length;i++){
+						
+						if(fmenus[i]==6){
+							d.add(6,0,'个人信息管理');
+							break;
+						}
+					}
+			
+					
+
+			//		d.add(1,0,'系统管理');
+					d.add(101,1,'新闻管理','${pageContext.request.contextPath}/SelectNewsServlet',"",'page');
+					d.add(102,1,'公告管理','${pageContext.request.contextPath}/NoticeServlet',"",'page');
+					
+					//d.add(101,1,'新闻管理','${pageContext.request.contextPath}/SelectNewsServlet',"",'page');
+					//d.add(102,1,'公告管理','${pageContext.request.contextPath}/NoticeServlet',"",'page');
+					
+					d.add(103,1,'资讯管理','${pageContext.request.contextPath}/InformationServlet',"", 'page');
+					d.add(104,1,'行业介绍','${pageContext.request.contextPath}/IndustryServlet?gansha=show',"", 'page');
+					d.add(105,1,'概况管理','${pageContext.request.contextPath}/SynopsisServlet?gansha=show',"", 'page');
+					d.add(106,1,'关于我们','${pageContext.request.contextPath}/ConcerningUsServlet?gansha=show',"", 'page');
+					d.add(107,1,'版权声明','${pageContext.request.contextPath}/CopyrightStateServlet?gansha=show',"", 'page');
+					d.add(108,1,'联系我们','${pageContext.request.contextPath}/ContactServlet?gansha=show',"", 'page');
+
+				//	d.add(4, 0, '课程管理');
+					
+
+					d.add(401,4,'课程管理','${pageContext.request.contextPath}/houtai/pages/class/list.jsp',"", 'page');
+					d.add(402,4,'学生管理','${pageContext.request.contextPath}/houtai/pages/stu/list.jsp',"", 'page');
+
+				//	d.add(5, 0, '权限管理');
+				
+					d.add(501,5,'人员管理','${pageContext.request.contextPath}/UserServlet?param=select',"", 'page');
+					d.add(502,5,'角色管理','${pageContext.request.contextPath}/RoleServlet?param=select',"", 'page');
+					d.add(503,5,'菜单管理','${pageContext.request.contextPath}/MenuServlet?param=select',"", 'page');
+
+				//	d.add(6, 0, '个人信息管理');
+				var id=document.getElementById("uid").value;	
+					d.add(601,6,'修改密码','${pageContext.request.contextPath}/UserServlet?param=pwd&num=1&id='+id,"", 'page');
+					d.add(602,6,'个人信息','${pageContext.request.contextPath}/houtai/pages/personalManager/detail.jsp',"", 'page');
+					document.writeln(d);
+
+							</script>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td height="31"><img
+										src="${pageContext.request.contextPath}/houtai/images/menu_foot.gif" width="175"
+										height="31">
+									</td>
+								</tr>
+							</table>
+						</td>
+						<td><iframe
+								src="${pageContext.request.contextPath}/houtai/pages/personalManager/detail.jsp"
+								width="100%" height="100%" frameborder="0" scrolling="no"
+								name="page"></iframe>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</form>
+
+</body>
+</html>

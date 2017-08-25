@@ -1,0 +1,28 @@
+package com.soda.service.impl;
+
+import com.soda.dao.StudentDao;
+import com.soda.dao.impl.StudentDaoImpl;
+import com.soda.entity.Course;
+import com.soda.entity.Student;
+import com.soda.service.*;
+
+public class StudentServiceImpl implements StudentService {
+	private StudentDao sd = new StudentDaoImpl();
+
+	@Override
+	public void addCourse(int stid, int p) {
+		// TODO Auto-generated method stub
+		sd.addCourse(stid,p);
+	}
+	@Override
+	public Student selectStudentByName(String ur_loginName) {
+		// TODO Auto-generated method stub
+		return sd.selectStudentByName(ur_loginName);
+	}
+
+	@Override
+	public int updateContent(String content, int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+}

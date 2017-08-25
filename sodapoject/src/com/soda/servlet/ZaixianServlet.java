@@ -1,0 +1,95 @@
+package com.soda.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.soda.entity.Course;
+import com.soda.entity.PageInfo;
+import com.soda.entity.Survey;
+import com.soda.service.CourseService;
+import com.soda.service.SurveyService;
+import com.soda.service.impl.CourseServiceImpl;
+import com.soda.service.impl.SurveyServiceImpl;
+
+public class ZaixianServlet extends HttpServlet {
+
+	private CourseService cs = new CourseServiceImpl();
+
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		request.setCharacterEncoding("utf-8");
+
+		int param = 1;
+		if (request.getParameter("param") != null
+				&& request.getParameter("param").length() > 0) {
+			param = Integer.parseInt(request.getParameter("param"));
+		}
+		if (param == 1) {
+			//分页开始
+			PageInfo pi = new PageInfo(1, 10, 0, 0);
+			if (request.getParameter("page") != null
+					&& request.getParameter("page").length() > 0) {
+				pi.setPageNum(Integer.parseInt(request.getParameter("page")));
+			}
+
+			int num = cs.selectTotalCount();
+			pi.setTotalCount(num);
+			pi.setTotalPage((num + pi.getPageSize() - 1) / pi.getPageSize());
+
+			if (pi.getPageNum() < 1)
+				pi.setPageNum(1);
+
+			if (pi.getPageNum() > pi.getTotalPage())
+				pi.setPageNum(pi.getTotalPage());
+			//分页结束
+			//全查在线
+			List<Course> course = cs.selectZaixianCourse(pi);
+			request.setAttribute("pi", pi);
+			request.setAttribute("course", course);
+			request.getRequestDispatcher("qiantai/video.jsp").forward(request,
+					response);
+		}
+		if (param == 2) {
+			
+			String ce_name=request.getParameter("ce_name");
+			Course course=new Course();
+			course.setCe_name(ce_name);
+			
+			PageInfo pi = new PageInfo(1, 10, 0, 0);
+			if (request.getParameter("page") != null
+					&& request.getParameter("page").length() > 0) {
+				pi.setPageNum(Integer.parseInt(request.getParameter("page")));
+			}
+
+			int num = cs.selectTotalCount();
+			pi.setTotalCount(num);
+			pi.setTotalPage((num + pi.getPageSize() - 1) / pi.getPageSize());
+			if (pi.getPageNum() < 1)
+				pi.setPageNum(1);
+			if (pi.getPageNum() > pi.getTotalPage())
+				pi.setPageNum(pi.getTotalPage());
+			//模糊在线
+			List<Course> course1=cs.selectMohuZaixianCourse(course,pi);
+
+			request.setAttribute("pi", pi);
+			request.setAttribute("course", course1);
+
+			request.getRequestDispatcher("qiantai/video.jsp").forward(request,
+					response);
+		}
+
+	}
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}

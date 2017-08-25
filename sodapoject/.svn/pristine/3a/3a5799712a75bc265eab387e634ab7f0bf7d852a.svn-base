@@ -1,0 +1,296 @@
+<%@page import="com.soda.entity.User"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+<html>
+<head>
+  <base href="<%=basePath%>">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link href="houtai/css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="houtai/js/main.js"></script>
+<script type="text/javascript">
+	var xhr;
+	
+	function updateState(uid,num) {
+		if(num==1)
+			if (!confirm("是否禁用？"))
+				return;
+		if(num==2)
+			if (!confirm("是否删除？"))
+				return;
+		xhr = new XMLHttpRequest();
+		xhr.open("get",
+				"${pageContext.request.contextPath}/UserServlet?param=updateState&num="+num+"&uid="+uid, true);
+		xhr.send(null);
+		
+			location.reload();
+	
+		
+	}
+	
+
+	
+	
+	function select() {
+		var loginName = document.getElementById("textfield").value;
+		var realName = document.getElementById("textfield2").value;
+		var state = document.getElementById("select2").value;
+		location.href="${pageContext.request.contextPath}/UserServlet?param=select&loginName="
+						+ loginName + "&realName=" + realName + "&state="
+						+ state;
+		
+		
+	}
+	//跳页
+	function changePage(pages,num){
+		
+		if(isNaN(pages)){
+			alert("请输入数字");
+			return;
+		}
+		if(pages<1||num<pages){
+			alert("您输入的页面超出范围");
+			return;
+		}
+		
+		document.getElementById("page").value=pages;
+		
+		var loginName = document.getElementById("textfield").value;
+		var realName = document.getElementById("textfield2").value;
+		var state = document.getElementById("select2").value;
+		
+		//document.myform.submit();
+		location.href="${pageContext.request.contextPath}/UserServlet?param=select&loginName="
+						+ loginName + "&realName=" + realName + "&state="
+						+ state+"&page="+pages;
+	
+	}
+	function singleSelect(id){
+		
+		location.href="${pageContext.request.contextPath}/UserServlet?param=single&way=s&id="+id;
+	}
+	function edit(id){
+		location.href="${pageContext.request.contextPath}/UserServlet?param=single&way=e&id="+id;
+	}
+	
+	//多选删除
+ 	function checkeDel(){
+ 	var del=false;
+ 		var alls=document.getElementsByName("checkbox2");
+ 			for(var i=0;i<alls.length;i++){
+ 				if(alls[i].checked){
+ 					del=true;
+ 					break;
+ 				}
+			}
+ 		if(del)
+ 			if(confirm("确定删除?"))
+ 				document.myform.submit();
+ 			else
+ 				return;
+ 		}
+
+		//复选框
+	function checkif(ck){
+	var alls=document.getElementsByName("checkbox2");
+	var conterCheck=document.getElementById("checkbox");
+	for(var i=0;i<alls.length;i++){
+		
+		if(conterCheck.checked){
+			alls[i].checked=true;
+		}else{
+			alls[i].checked=false;
+		}
+	}
+
+	}
+	
+</script>
+</head>
+<body>
+<form name="myform" action="${pageContext.request.contextPath}/UserServlet?param=updateStates&num=2" method="post">
+	<table width="100%" height="100%" border="0" cellspacing="0"
+		cellpadding="3" name="listTable">
+		<tr>
+			<td style="height:25px; background-color:#f3f3f3; font-weight:bold"
+				valign="top">&nbsp;&nbsp;&nbsp;&nbsp;当前位置： <img
+				src="houtai/images/arrow.gif" align="absmiddle">&nbsp;&nbsp;soda创业教育平台&nbsp;&nbsp;
+				<img src="houtai/images/arrow.gif" align="absmiddle">&nbsp;&nbsp;后台管理&nbsp;&nbsp;
+				<img src="houtai/images/arrow.gif" align="absmiddle">&nbsp;&nbsp;用户管理</td>
+		</tr>
+		<tr>
+			<td
+				style="height:34px; background-image:url(houtai/images/main_header.gif); border-bottom:1px solid #cfd8e0; padding:0px">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					name="listTable2">
+					<tr>
+						<td width="20" height="34"><img
+							src="houtai/images/main_headerL.gif" width="20" height="34">
+						</td>
+						<td style="color:#90c8e8;"><img
+							src="houtai/images/icon_card.gif" width="16" height="16"
+							align="absmiddle">&nbsp;&nbsp;<strong>用户管理</strong></td>
+						<td align="right" class="white" style="padding-right:20px"><a
+						class="barBtn" onClick="location.href='${pageContext.request.contextPath}/houtai/pages/user/add.jsp'"
+							name="add"><img src="houtai/images/5.png" align="absmiddle">
+								新增</a>
+						 <a href="#" class="barBtn"
+							onClick="javascript:history.go(-1);" name="retreat"><img
+								src="houtai/images/btn_left.gif" align="absmiddle"> 后退</a> <a
+							href="#" class="barBtn" onClick="javascript:history.go(+1);"
+							name="advance"><img src="houtai/images/btn_right.gif"
+								align="absmiddle"> 前进</a> 
+								<a href="#" class="barBtn"
+							name="flush"><img src="houtai/images/btn_refresh.gif"
+								align="absmiddle"> 刷新</a>
+								
+								 <a href="Javascript:checkeDel()"
+							class="barBtn" name="batchDelete"><img
+								src="houtai/images/6.png" width="16" height="16"
+								align="absmiddle"> 删除</a></td>
+					</tr>
+				</table></td>
+		</tr>
+		<tr>
+			<td
+				style="height:30px; background-color:#bddbff; border-bottom:1px solid #cfd8e0;">
+				
+				<form name="myform2" action="${pageContext.request.contextPath}/UserServlet?param=select" method="post">
+				
+				
+				<table width="100%" border="0" cellpadding="3" cellspacing="1"
+					class="table1" name="listTable3">
+					<TR>
+						<th width="10%" align="center" name="loginName">用户登录名</th>
+						
+						<td width="20%" class="BGCgray"><input type="text"
+							name="ur_loginName" id="textfield" value="${info.loginName }"></td>
+							
+						<th name="realName" width="10%" align="center">真实姓名</th>
+						<td width="20%" class="BGCgray"><input type="text" value="${info.realName }"
+							name="ur_name" id="textfield2"></td>
+						<th width="10%" align="center" name="state"><STRONG>状态</STRONG></th>
+						<td width="20%" class="BGCgray"><select name="ur_state" 
+							id="select2">
+								<option value="">全部</option>
+								<option value=1 <c:if test="${info.state==1 }">selected="selected"</c:if>>启用</option>
+								<option value=0 <c:if test="${info.state==0 }">selected="selected"</c:if>>禁用</option>
+								
+						</select></td>
+						
+						<th width="10%" align="center">
+						<BUTTON style="HEIGHT:25px" 
+								onClick="javascript:select(); return false;" name="dimSelect">
+								<input type="hidden" name="page" id="page" value="1" />
+								<img src="houtai/images/btn_search.gif" width="16" height="16"
+									align="absmiddle"> 查询
+							</BUTTON></th>
+					</TR>
+				</table></td>
+				
+				</form>
+		</tr>
+		<tr>
+			<td height="100%" valign="top">
+				<div style="overflow:auto;height:100%; width:100%">
+				
+					<table width="100%" border="0" cellpadding="3" cellspacing="1"
+						class="table1" name="listTable4">
+						<TR>
+							<th align="center"><input type="checkbox" name="checkbox"
+								id="checkbox"  
+								
+								
+								onclick="checkif(this.checked)"
+								
+								
+								></th>
+							<th align="center">用户姓名</th>
+							<th align="center">登录名</th>
+							<th align="center">联系电话</th>
+							<th align="center">地址</th>
+							<th align="center">邮箱</th>
+							<th align="center">状态</th>
+							<th width="200" align="center">操作</th>
+						</TR>
+						
+						<c:forEach items="${users }" var="user" >
+
+							<TR>
+								<TD align="center"><input type="checkbox" name="checkbox2"
+								value="${user.ur_id }"
+									id="${user.ur_id }"></TD>
+									
+									
+								<TD align="center">${user.ur_name }</TD>
+								<TD align="center">${user.ur_loginName }</TD>
+								<TD align="center">${user.ur_phone }</TD>
+								<TD align="center">${user.ur_address }</TD>
+								<TD align="center">通过</TD>
+								<TD align="center">
+										<c:if test="${user.ur_state==1 }">启用</c:if>
+										<c:if test="${user.ur_state==0 }">禁用</c:if>
+								</TD>
+								
+								
+								<TD width="200" align="center"><BUTTON
+										style="height:21px; font-size:12px"
+										onClick="javascript: singleSelect(${user.ur_id}); return false;">查看</BUTTON>
+									<BUTTON style="height:21px; font-size:12px"
+										onClick="javascript:edit(${user.ur_id}); return false;">编辑</BUTTON>
+									<BUTTON style="height:21px; font-size:12px"
+										onClick="updateState(${user.ur_id },1); return false;">禁用</BUTTON>
+									<BUTTON style="height:21px; font-size:12px"
+										onClick="updateState(${user.ur_id },2); return false;">删除</BUTTON>
+								</TD>
+							</TR>
+
+						</c:forEach>
+					
+
+
+					</table>
+					
+					<c:if test="${users==null }" >查询结果为空</c:if>
+					
+					<table width="100%" border="0" cellspacing="0" cellpadding="0"
+						name="listTable5">
+						<tr>
+							<td width="20%" height="25"><table border="0"
+									cellspacing="0" cellpadding="3">
+									<tr>
+										<td><a href="javascript:changePage(1)" style="color:black;" name="pageFirst">首页</a>
+										</td>
+										<td><a href="javascript:changePage(${info.currentPage-1 })" style="color:black;" name="pageUp">上一页</a>
+										</td>
+										<td><a href="javascript:changePage(${info.currentPage+1 })" style="color:black;" name="pageNext">下一页</a>
+										</td>
+										<td><a href="javascript:changePage(${info.totalPages })" style="color:black;" name="pageEnd">尾页</a>
+										</td>
+									</tr>
+								</table>
+							</td>
+							<td width="20%" align="center">
+								<table border="0" cellspacing="0" cellpadding="3"
+									name="listTable6">
+									<tr>
+										<td><a href="javascript:changePage(document.getElementById('pageText').value,${info.totalPages })" style="color:black;" name="pageGo">GO</a>
+										</td>
+										<td><input name="pageText" type="text" size="3" id="pageText"
+											style="width:25;height:18"> /页</td>
+									</tr>
+								</table></td>
+							<td width="20%" align="right">共${info.totalCount }条记录显示到${info.currentPage}/${info.totalPages }</td>
+						</tr>
+					</table>
+				</div>
+			</td>
+		</tr>
+	</table>
+</form>
+</body>
+</html>

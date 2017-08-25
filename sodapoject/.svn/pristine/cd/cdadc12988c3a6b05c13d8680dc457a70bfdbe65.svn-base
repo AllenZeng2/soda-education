@@ -1,0 +1,56 @@
+package com.soda.service.impl;
+import java.util.List;
+
+import com.soda.dao.InformationDao;
+import com.soda.dao.impl.InformationDaoImpl;
+import com.soda.entity.Information;
+import com.soda.entity.News;
+import com.soda.entity.PageInfo;
+import com.soda.service.*;
+
+
+public class InformationServiceImpl implements InformationService{
+
+	private InformationDao id=new InformationDaoImpl();
+	public List<Information> getinformation(Information in) {
+		// TODO Auto-generated method stub
+		return id.getinformation(in);
+	}
+	@Override
+	public List<Information> conditionSelect(Information information, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return id.conditionSelect(information, pi);
+	}
+	@Override
+	public int conditionCount(Information information) {
+		// TODO Auto-generated method stub
+		return id.conditionCount(information);
+	}
+	@Override
+	public int deleteInformation(int ns_id) {
+		// TODO Auto-generated method stub
+		return id.deleteInformation(ns_id);
+	}
+	@Override
+	public int updateState(int in_state, int in_id) {
+		// TODO Auto-generated method stub
+		return id.updateState(in_state,in_id);
+	}
+	@Override
+	public Information getInformationWithId(int ns_id) {
+		// TODO Auto-generated method stub
+		return id.getInformationWithId(ns_id);
+	}
+	@Override
+	public int submitInformation(Information information) {
+		// TODO Auto-generated method stub
+		return id.submitInformation(information);
+	}
+	@Override
+	public int addInformation(Information information) {
+		// TODO Auto-generated method stub
+		return id.addInformation(information);
+	}
+
+}
+

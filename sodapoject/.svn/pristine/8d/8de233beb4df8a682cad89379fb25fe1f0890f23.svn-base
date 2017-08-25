@@ -1,0 +1,205 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+<html>
+<head>
+<base href="<%=basePath%>">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link href="houtai/css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="houtai/js/main.js"></script>
+
+<script type="text/javascript">
+
+	//添加
+	var aj=false;
+	function add(){
+		document.getElementById("param").value="add";
+		if (aj&&confirm("保存信息？")) 
+		document.myform.submit();	
+	}	
+	//复选框
+	function checkif(ck,num){
+		var alls;
+		var conterCheck;
+		if(num==1){
+			alls=document.getElementsByName("checkbox11");
+			conterCheck=document.getElementById("checkbox1");
+		}else if(num==2){
+			alls=document.getElementsByName("checkbox21");
+			conterCheck=document.getElementById("checkbox2");
+		}
+
+		for(var i=0;i<alls.length;i++){
+			
+			if(conterCheck.checked){
+				alls[i].checked=true;
+			}else{
+				alls[i].checked=false;
+			}
+		}
+	  }
+	  
+	  //当子菜单没有选中时,父级菜单取消
+	  function cancel(num){
+			//alert(111);
+		  var alls;
+		  var conterCheck;
+		  if(num==1){
+				alls=document.getElementsByName("checkbox11");
+				conterCheck=document.getElementById("checkbox1");
+			}else if(num==2){
+				alls=document.getElementsByName("checkbox21");
+				conterCheck=document.getElementById("checkbox2");
+			}
+			for(var i=0;i<alls.length;i++){
+				if(alls[i].checked)
+					return;		
+			}
+			conterCheck.checked=false;
+	  }
+	  //判断名字是否重复
+	 var xhr;  
+	function ckname(value){
+		
+		xhr=new XMLHttpRequest();
+		xhr.onreadystatechange=bian;
+		xhr.open("get","${pageContext.request.contextPath }/RoleServlet?param=same&name="+value,true);
+		xhr.send(null);
+	
+	}
+
+	function bian(){
+		aj=true;
+		if(xhr.readyState==4&&xhr.status==200){
+			var txt=xhr.responseText;
+			var fail="fail";
+			if(txt==fail){
+				aj=false;
+				document.getElementById("ajax").innerHTML="名字不能为空或已存在";
+			}else{
+				document.getElementById("ajax").innerHTML="";
+			}
+		}		
+	}
+	
+	
+	
+</script>
+
+
+
+</head>
+
+
+
+<body>
+
+<form name="myform" action="${pageContext.request.contextPath }/RoleServlet" method="post">
+
+<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="3" name="addTable">
+  <tr>
+    <td style="height:25px; background-color:#f3f3f3; font-weight:bold" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;当前位置：
+    <img src="houtai/images/arrow.gif" align="absmiddle">&nbsp;&nbsp;soda创业教育平台&nbsp;&nbsp;
+    <img src="houtai/images/arrow.gif" align="absmiddle">&nbsp;&nbsp;后台管理&nbsp;&nbsp;
+    <img src="houtai/images/arrow.gif" align="absmiddle">&nbsp;&nbsp;角色管理
+    </td>
+  </tr>
+  <tr>
+    <td style="height:34px; background-image:url(houtai/images/main_header.gif); border-bottom:1px solid #cfd8e0; padding:0px">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" name="addTable2">
+        <tr>
+          <td width="20" height="34"><img src="houtai/images/main_headerL.gif" width="20" height="34"></td>
+          <td style="color:#90c8e8;"><img src="houtai/images/icon_card.gif" width="16" height="16" align="absmiddle">&nbsp;&nbsp;<strong>添加角色</strong></td>
+          <td align="right" class="white" style="padding-right:20px">
+          <a href="javascript:history.go(-1);" class="barBtn" onClick="javascript:history.go(-1);" name="retreat"  ><img src="houtai/images/btn_left.gif" align="absmiddle"> 后退</a>
+          <a href="javascript:history.go(+1);" class="barBtn" onClick="javascript:history.go(+1);" name="advance"><img src="houtai/images/btn_right.gif" align="absmiddle"> 前进</a>
+          <a href="Javascript:location.reload();" class="barBtn" name="flush"><img src="houtai/images/btn_refresh.gif" align="absmiddle"> 刷新</a>
+          </td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="100%" valign="top">
+    <div style="overflow:auto;height:100%; width:100%">
+      <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1" name="addTable3" >
+        <TR>
+          <th width="20%" align="center">角色名</th>
+          
+          <input type="hidden" name="param" id="param"/>
+          
+          <TD class="BGCgray"><input id="roler" type="text" name="ro_name"  onblur="ckname(value)"/>
+          <span id="ajax" style="color: red" ></span></TD>
+          
+        </TR>
+        <TR>
+          <th align="center">对应菜单</th>
+          <TD class="BGCgray">
+			<ul>
+			
+			<!-- 多选区 -->
+			
+			
+            	<li><input type="checkbox" value="1" 
+            					name="checkbox"
+								id="checkbox1"
+								onclick="checkif(this.checked,1)"
+            	/>系统管理
+                	<ul>
+                   	<li><input onclick="cancel(1)" id="checkbox11" name="checkbox11" type="checkbox" value="2" />新闻管理</li>
+        	    	<li><input onclick="cancel(1)" id="checkbox12" name="checkbox11" type="checkbox" value="3" />公告管理</li>
+					<li><input onclick="cancel(1)" id="checkbox13" name="checkbox11" type="checkbox" value="4" />资讯管理</li>
+                    </ul>
+                </li>
+                <li><input type="checkbox" value="2" name="checkbox"
+                			id="checkbox2"
+                			onclick="checkif(this.checked,2)"
+                		
+                
+                />用户管理
+                	<ul>
+                   	<li><input onclick="cancel(2)" name="checkbox21" type="checkbox" value="12" />学生管理</li>
+        	    	<li><input onclick="cancel(2)" name="checkbox21" type="checkbox" value="11" />人员管理</li>
+					<li><input onclick="cancel(2)" name="checkbox21" type="checkbox" value="14" />课程管理</li>
+                    </ul>
+                </li>
+
+            </ul>
+          </TD>
+        </TR>
+        <TR>
+          <th align="center">启用状态</th>
+          <TD class="BGCgray">
+          <input type="radio" value="1" checked="checked"  name="ro_state"/>启用
+          <input type="radio" value="0"  name="ro_state"/>禁用
+          </TD>
+        </TR>
+        <TR>
+          <th align="center"><span class="BGCgray">备注</span></th>
+          <TD class="BGCgray">
+          	<textarea name="ro_remark">暂无
+            </textarea>
+          </TD>
+        </TR>
+      </table>
+      <div style="width:100%; text-align:center; padding:5px">
+        <BUTTON style="HEIGHT:25px" onClick="add();return false;" 
+        name="submit"><img src="houtai/images/btn_save.gif" width="16" 
+        height="16" align="absmiddle"> 保存</BUTTON>
+        
+        <BUTTON style="HEIGHT:25px" onClick="javascript:if (confirm('您填写的信息还未保存，确认返回么？')) history.go(-1);return false;" 
+        name="back"><img src="houtai/images/btn_back.gif" width="16" height="16" 
+        align="absmiddle"> 返回</BUTTON>
+      </div>
+    </div>
+  </td>
+  </tr>
+</table>
+
+</form>
+
+
+</body>
+</html>

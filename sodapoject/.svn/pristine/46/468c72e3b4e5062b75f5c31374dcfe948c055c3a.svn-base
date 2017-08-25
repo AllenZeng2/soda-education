@@ -1,0 +1,81 @@
+package com.soda.servlet.control;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.soda.entity.ConditionInfo;
+import com.soda.entity.Role;
+import com.soda.service.RoleService;
+import com.soda.service.impl.RoleServiceImpl;
+
+public class RoleControl {
+	private RoleService rs=new RoleServiceImpl();
+	public void selectRoles(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String ro_name=request.getParameter("ro_name");
+		String state=request.getParameter("ro_state");
+		String page=request.getParameter("page");
+		
+		//查询信息类
+		ConditionInfo cf=new ConditionInfo();
+		
+		cf.setLoginName(ro_name);
+		cf.setItemsEveryPage(10);
+		//设置当前页为第一页
+		cf.setCurrentPage(1);
+		//判断page是否为空或双引号,主要是防止非链接访问
+		if(page!=null&&page.length()>0){
+			cf.setCurrentPage(Integer.parseInt(page));
+			
+		}
+		//对"全部"进行处理
+		if(state==null||state.length()==0){
+			cf.setState(2);
+		}else{
+			cf.setState(Integer.parseInt(state));
+		}
+		//查询得到查询的count,并赋值
+		cf.setTotalCount(rs.getTotalPages(cf));
+		
+		
+		
+		System.out.println(cf.getTotalCount());
+		//对count+9在整除,获得页数
+		cf.setTotalPages((cf.getTotalCount()+9)/cf.getItemsEveryPage());
+		//防止查询无结果
+		if(cf.getTotalPages()<1)
+			cf.setTotalPages(1);
+		
+		//防止首页和尾页跳出
+		if(cf.getCurrentPage()<1){
+			cf.setCurrentPage(1);
+		}
+		if(cf.getCurrentPage()>cf.getTotalPages()){
+			cf.setCurrentPage(cf.getTotalPages());
+		}
+		//根据传入的param值相应操作
+		
+			List<Role> roles=rs.selectRoles(cf);
+			System.out.println(roles.size());
+			if(roles.size()<=0) roles=null;
+			
+    		request.setAttribute("info",cf);
+			request.setAttribute("roles", roles);
+			request.getRequestDispatcher("houtai/pages/role/list.jsp").forward(request, response);
+		
+	}
+	public void detailOfRole(HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		String id=request.getParameter("re_id");
+		if(id!=null&&id.length()>0){
+			
+			
+		}
+	}
+	
+}

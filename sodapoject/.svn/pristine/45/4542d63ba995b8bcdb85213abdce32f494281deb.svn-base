@@ -1,0 +1,54 @@
+package com.soda.servlet.control;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.soda.entity.Role;
+import com.soda.entity.User;
+import com.soda.service.UserService;
+import com.soda.service.impl.UserServiceImpl;
+
+public class UpdateUser {
+	private UserService us=new UserServiceImpl();
+	public void updateUser(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		String id=request.getParameter("id");
+		String pwd=request.getParameter("ur_password");
+		String ur_name=request.getParameter("ur_name");
+		String ur_idcard=request.getParameter("ur_idcard");
+		String ur_phone=request.getParameter("ur_phone");
+		String ur_adress=request.getParameter("ur_adress");
+		String ur_email=request.getParameter("ur_email");
+		String ur_roleId=request.getParameter("ur_roleId");
+		String ur_state=request.getParameter("ur_state");
+
+		
+		User user=new User();
+		Integer rid=Integer.parseInt(ur_roleId);
+		Role role=new Role();
+		role.setRe_id(rid);
+		Integer ur_id=Integer.parseInt(id);
+		Integer state=Integer.parseInt(ur_state);
+		user.setUr_id(ur_id);
+		user.setUr_password(pwd);
+		user.setUr_name(ur_name);
+		user.setUr_idcard(ur_idcard);
+		user.setUr_phone(ur_phone);
+		user.setUr_address(ur_adress);
+		user.setUr_email(ur_email);
+		user.setRole(role);
+		user.setUr_state(state);
+		
+		us.updateUser(user);
+		
+		response.sendRedirect("houtai/pages/user/list.jsp");
+		
+		
+		
+	}
+
+}

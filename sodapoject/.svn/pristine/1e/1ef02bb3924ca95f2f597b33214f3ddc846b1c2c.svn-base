@@ -1,0 +1,120 @@
+package com.soda.dao.impl;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.soda.dao.BaseDao;
+import com.soda.dao.RoleDao;
+import com.soda.entity.ConditionInfo;
+import com.soda.entity.Role;
+import com.soda.entity.User;
+
+public class RoleDaoImpl extends BaseDao implements RoleDao{
+	
+	
+	
+	
+	//全查
+	@Override
+	public List<Role> selectRoles(ConditionInfo cf) {
+		try {
+			getConn();
+			StringBuffer sql=new StringBuffer("SELECT * FROM role WHERE 1=1 and re_status=1");
+			
+			if(cf.getLoginName()!=null&&cf.getLoginName().length()>0){
+				sql.append(" and re_name like ?");
+			}
+			
+			if(cf.getState()==1||cf.getState()==0){
+				sql.append(" and re_state=?");
+			}
+			sql.append(" limit ?,?");
+			
+			ps=conn.prepareStatement(sql.toString());
+			
+			int temp=1;
+			if(cf.getLoginName()!=null&&cf.getLoginName().length()>0){
+				ps.setString(temp, cf.getLoginName()+"%");
+				temp++;
+			}
+			
+			if(cf.getState()==1||cf.getState()==0){
+				ps.setInt(temp, cf.getState());
+				temp++;
+			}
+			
+			ps.setInt(temp, cf.getItemsEveryPage()*(cf.getCurrentPage()-1));
+			temp++;
+			ps.setInt(temp, cf.getItemsEveryPage());
+		
+			
+			res=ps.executeQuery();
+			List<Role> list=new ArrayList<Role>();
+			
+			while(res.next()){
+				Role r=new Role();
+				r.setRe_id(res.getInt(1));
+				r.setRe_name(res.getString(2));
+				r.setRe_state(res.getInt(3));
+				r.setRe_remark(res.getString(4));
+				list.add(r);
+			}
+			return list;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			close(conn, ps, res);
+			
+		}
+		return null;
+	}
+	
+	
+	@Override
+	public Integer getTotalPages(ConditionInfo cf) {
+		try {
+			getConn();
+			StringBuffer sql=new StringBuffer("SELECT count(1) FROM role WHERE 1=1 and re_status=1");
+
+			if(cf.getLoginName()!=null&&cf.getLoginName().length()>0){
+				sql.append(" and re_name like ?");
+			}
+
+			if(cf.getState()==1||cf.getState()==0){
+				sql.append(" and re_state=?");
+			}
+			
+			
+			ps=conn.prepareStatement(sql.toString());
+			
+			int temp=1;
+			if(cf.getLoginName()!=null&&cf.getLoginName().length()>0){
+				ps.setString(temp, cf.getLoginName()+"%");
+				temp++;
+			}
+
+			if(cf.getState()==1||cf.getState()==0){
+				ps.setInt(temp, cf.getState());
+				temp++;
+			}
+			
+			res=ps.executeQuery();
+			//List<User> list=new ArrayList<User>();
+			if(res.next()){
+				return res.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			close(conn, ps, res);
+			
+		}
+		return 0;
+	}
+	
+	
+}

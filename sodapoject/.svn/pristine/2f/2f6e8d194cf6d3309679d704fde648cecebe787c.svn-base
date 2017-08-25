@@ -1,0 +1,144 @@
+package com.soda.entity;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.soda.dao.BaseDao;
+
+
+
+public class Table2EntityUtil {
+	// 包名
+	private String packageName = "com.soda.service.impl;";
+	// 导出路径
+	private String path = "H:\\Users\\hp\\sodaworkspace\\sodapoject\\src\\com\\soda\\service\\impl";
+	// 获取数据库连接
+	private Connection conn = new BaseDao().getConn();
+
+	// --------------------------------------------------
+	// 列名数组
+	private String[] colnames;
+	// 列名类型数组
+	private String[] colTypes;
+	// 列名大小数组
+	private int[] colSizes;
+
+	public Table2EntityUtil() throws SQLException {
+		List<String> list = getTableNameByCon();
+		for (String string : list) {
+			getEntity(string);
+		}
+	}
+
+	/**
+	 * 解析单个表
+	 * 
+	 * @param tablename
+	 */
+	public void getEntity(String tablename) {
+		String strsql = "select * from " + tablename;
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(strsql);
+			ResultSetMetaData rsmd = pstmt.getMetaData();
+			int size = rsmd.getColumnCount();
+			colnames = new String[size];
+			colTypes = new String[size];
+			colSizes = new int[size];
+			boolean f_util = false;
+			boolean f_sql = false;
+			for (int i = 0; i < rsmd.getColumnCount(); i++) {
+				colnames[i] = rsmd.getColumnName(i + 1);
+				colTypes[i] = rsmd.getColumnTypeName(i + 1);
+				if (colTypes[i].equalsIgnoreCase("datetime") || colTypes[i].equalsIgnoreCase("date")) {
+					f_util = true;
+				}
+				if (colTypes[i].equalsIgnoreCase("image") || colTypes[i].equalsIgnoreCase("text")) {
+					f_sql = true;
+				}
+				colSizes[i] = rsmd.getColumnDisplaySize(i + 1);
+			}
+			String content = parse(f_util, f_sql, tablename, colnames, colTypes, colSizes);
+			try {
+				FileWriter fw = new FileWriter(path + "/" + initcap(tablename) + "ServiceImpl.java");
+				PrintWriter pw = new PrintWriter(fw);
+				pw.println(content);
+				pw.flush();
+				pw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 解析处理(生成实体类主体代码)
+	 */
+	private String parse(boolean f_util, boolean f_sql, String tablename, String[] colNames, String[] colTypes,
+			int[] colSizes) {
+		StringBuffer sb = new StringBuffer();
+		if (packageName != null && packageName.trim().length() > 0) {
+			sb.append("package " + packageName + "\r\n\n");
+		}
+		
+	    sb.append("import com.soda.service.*;\r\n\r\n\r\n\n");
+		
+		sb.append("public class " + initcap(tablename) + "ServiceImpl implements " + initcap(tablename) + "Service{\r\n");
+		
+
+		sb.append("}\r\n");
+		System.out.println(sb.toString());
+		return sb.toString();
+
+	}
+
+
+	/**
+	 * 把输入字符串的首字母改成大写
+	 * 
+	 * @param str
+	 * @return
+	 */
+	private String initcap(String str) {
+		char[] ch = str.toCharArray();
+		if (ch[0] >= 'a' && ch[0] <= 'z') {
+			ch[0] = (char) (ch[0] - 32);
+		}
+		return new String(ch);
+	}
+
+	/**
+	 * 获取所有数据库表名字
+	 * 
+	 * @return
+	 */
+	public List<String> getTableNameByCon() {
+		List<String> list = null;
+		try {
+			DatabaseMetaData meta = conn.getMetaData();
+			ResultSet rs = meta.getTables(null, null, null, new String[] { "TABLE" });
+			list = new ArrayList<String>();
+			while (rs.next()) {
+				list.add(rs.getString(3));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public static void main(String[] args) throws SQLException {
+		new Table2EntityUtil();
+	}
+}

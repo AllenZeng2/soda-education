@@ -1,0 +1,202 @@
+package com.soda.servlet.control;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.soda.entity.ConditionInfo;
+import com.soda.entity.Menu;
+import com.soda.entity.Role;
+import com.soda.service.MenuService;
+import com.soda.service.impl.MenuServiceImpl;
+
+public class MenuControl {
+	MenuService ms=new MenuServiceImpl();
+
+	public void selectMenus(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		request.setCharacterEncoding("utf-8");
+		String mu_name=request.getParameter("mu_name");
+		String state=request.getParameter("mu_state");
+		String page=request.getParameter("page");
+		
+		//查询信息类
+		ConditionInfo cf=new ConditionInfo();
+		
+		cf.setLoginName(mu_name);
+		cf.setItemsEveryPage(5);
+		//设置当前页为第一页
+		cf.setCurrentPage(1);
+		//判断page是否为空或双引号,主要是防止非链接访问
+		if(page!=null&&page.length()>0){
+			cf.setCurrentPage(Integer.parseInt(page));
+		}
+		//对"全部"进行处理
+		if(state==null||state.length()==0){
+			cf.setState(2);
+		}else{
+			cf.setState(Integer.parseInt(state));
+		}
+		//查询得到查询的count,并赋值
+		
+		cf.setTotalCount(ms.getTotalPages(cf));//方法在这儿
+		//System.out.println(cf.getTotalCount());
+		
+		//对count+9在整除,获得页数
+		cf.setTotalPages((cf.getTotalCount()+4)/cf.getItemsEveryPage());
+		//防止查询无结果
+		if(cf.getTotalPages()<1)
+			cf.setTotalPages(1);
+		
+		//防止首页和尾页跳出
+		if(cf.getCurrentPage()<1){
+			cf.setCurrentPage(1);
+		}
+		if(cf.getCurrentPage()>cf.getTotalPages()){
+			cf.setCurrentPage(cf.getTotalPages());
+		}
+		//根据传入的param值相应操作
+		
+			List<Menu> menus=ms.selectMenus(cf);
+			if(menus.size()<=0) menus=null;
+			
+    		request.setAttribute("info",cf);
+			request.setAttribute("menus", menus);
+			request.getRequestDispatcher("houtai/pages/menu/list.jsp").forward(request, response);
+		
+	}
+	//禁用和删除
+	public void updateMenu(HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		String num=request.getParameter("num");
+		String id=request.getParameter("mu_id");
+	
+		if(id!=null&&id.length()>0){
+			
+			ms.updateStateOfMenu(Integer.parseInt(id),Integer.parseInt(num));	
+			
+		}
+	}
+	//详情
+	public void detailOfMenu(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		
+		String id=request.getParameter("mu_id");
+		String num=request.getParameter("num");
+		if(id!=null&&id.length()>0){
+			Menu menu=ms.selectMenuById(Integer.parseInt(id));	
+			request.setAttribute("menu", menu);
+			if(Integer.parseInt(num)==1)
+			request.getRequestDispatcher("houtai/pages/menu/detail.jsp").forward(request, response);
+			if(Integer.parseInt(num)==2)
+				request.getRequestDispatcher("houtai/pages/menu/edit.jsp").forward(request, response);
+		}
+		
+	}
+	//编辑
+	public void editMenu(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+	
+		String mu_name=request.getParameter("mu_name");
+		String mu_id=request.getParameter("mu_id");
+		String mu_pid=request.getParameter("mu_pid");
+		String mu_state=request.getParameter("mu_state");
+		String mu_remark=request.getParameter("mu_remark");
+		String mu_url=request.getParameter("mu_url");
+		
+		Menu mu=new Menu();
+		mu.setMu_id(Integer.parseInt(mu_id));
+		mu.setMu_name(mu_name);
+		mu.setMu_pid(Integer.parseInt(mu_pid));
+		mu.setMu_state(Integer.parseInt(mu_state));
+		mu.setMu_remark(mu_remark);
+		mu.setMu_url(mu_url);
+		
+		ms.updateMenu(mu);
+		ms.updateFmenuOfMenu(mu);
+		
+		request.setAttribute("menu", mu);
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out=response.getWriter();
+		out.print("<script>");
+		out.print("alert('修改成功');location.href='houtai/pages/menu/list.jsp';");
+		out.print("</script>");
+	}
+	//检查重名
+	public void checkNameOfMenu(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		
+		String name=new String(request.getParameter("name").getBytes("ISO-8859-1"),"utf-8");
+		if(name.length()==0){
+			response.setContentType("text/html;charset=utf-8");
+			PrintWriter out=response.getWriter();
+			out.print("fail");
+			out.close();
+			return;
+		}
+		System.out.println(name);
+		if(name!=null&&name.length()>0){
+			
+			Menu m3=ms.selectMenuByName(name);
+			if(m3!=null){
+				response.setContentType("text/html;charset=utf-8");
+				PrintWriter out=response.getWriter();
+				out.print("fail");
+			}
+		}
+	}
+	//添加菜单
+	public void addMenu(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// TODO Auto-generated method stub
+		String mu_name=request.getParameter("mu_name");
+		String mu_pid=request.getParameter("mu_pid");
+		String mu_url=request.getParameter("mu_url");
+		String mu_state=request.getParameter("mu_state");
+		String mu_remark=request.getParameter("mu_remark");
+		
+		int state=Integer.parseInt(mu_state);
+		int pid=Integer.parseInt(mu_pid);
+		Menu mu=new Menu();
+		mu.setMu_name(mu_name);
+		mu.setMu_pid(pid);
+		mu.setMu_state(state);
+		mu.setMu_remark(mu_remark);
+		mu.setMu_url(mu_url);
+		//添加子菜单
+		ms.addMenu(mu);
+		Menu menu=ms.selectMenuByName(mu_name);
+		//给子菜单添加父菜单
+		ms.addFmenuOfMenu(menu);
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out=response.getWriter();
+		out.print("<script>");
+		out.print("alert('添加成功');location.href='houtai/pages/menu/list.jsp';");
+		out.print("</script>");
+	}
+	public void mutipleDelMenu(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException {
+		
+		int num=Integer.parseInt(request.getParameter("num"));
+		String[] ids=request.getParameterValues("checkbox2");
+		if(ids!=null){
+			for (int i = 0; i < ids.length; i++) {
+				ms.updateStateOfMenu(Integer.parseInt(ids[i]),num);
+			}
+			response.setContentType("text/html;charset=utf-8");
+			PrintWriter out=response.getWriter();
+			out.print("<script>");
+			out.print("alert('删除成功')");
+			out.print("</script>");
+			selectMenus(request, response);
+		}
+		
+	}
+
+}

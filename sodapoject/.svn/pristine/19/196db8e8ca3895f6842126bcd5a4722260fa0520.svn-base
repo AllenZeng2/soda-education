@@ -1,0 +1,8 @@
+package com.soda.dao.impl;
+
+import com.soda.dao.BaseDao;
+import com.soda.dao.Stu_courseDao;
+
+public class Stu_courseDaoImpl extends BaseDao implements Stu_courseDao{
+
+}

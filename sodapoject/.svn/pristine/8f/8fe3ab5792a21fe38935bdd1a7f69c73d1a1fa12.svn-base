@@ -1,0 +1,57 @@
+package com.soda.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Response;
+
+import com.soda.dao.UserDao;
+import com.soda.entity.User;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+
+
+public class LoginServlet extends HttpServlet {
+
+	
+	
+
+
+
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		
+		String ur_loginName=request.getParameter("ur_loginName");
+		String ur_password=request.getParameter("ur_password");
+		
+		User u=new User(0,ur_loginName,ur_password);
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out=response.getWriter();
+		
+		if(u ==null){
+			response.sendRedirect("login.jsp?case=1");
+			
+		}else{
+			request.getSession().setAttribute("user", u);
+			
+			response.sendRedirect("houtai/main.jsp");
+			
+			
+		}
+		
+		
+	}
+		
+		
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		doGet(request, response);
+	}
+
+}

@@ -1,0 +1,8 @@
+package com.soda.dao.impl;
+
+import com.soda.dao.BaseDao;
+import com.soda.dao.InformationDao;
+
+public class InformationDaoImpl extends BaseDao implements InformationDao{
+
+}

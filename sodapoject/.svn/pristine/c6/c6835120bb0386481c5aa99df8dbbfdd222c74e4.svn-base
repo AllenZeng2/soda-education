@@ -1,0 +1,9 @@
+package com.soda.dao.impl;
+
+import com.soda.dao.BaseDao;
+
+import com.soda.dao.NoticeDao;
+
+public class NoticeDaoImpl extends BaseDao implements NoticeDao{
+
+}

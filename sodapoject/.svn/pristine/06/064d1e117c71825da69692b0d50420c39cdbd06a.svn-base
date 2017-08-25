@@ -1,0 +1,14 @@
+package com.soda.service;
+
+import java.util.List;
+
+import com.soda.entity.ConditionInfo;
+import com.soda.entity.Role;
+
+public interface RoleService {
+
+	Integer getTotalPages(ConditionInfo cf);
+
+	List<Role> selectRoles(ConditionInfo cf);
+}
+

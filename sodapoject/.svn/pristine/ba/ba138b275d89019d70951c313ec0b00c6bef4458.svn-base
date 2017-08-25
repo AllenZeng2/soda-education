@@ -1,0 +1,72 @@
+package com.soda.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
+
+import com.soda.entity.ConditionInfo;
+import com.soda.entity.User;
+import com.soda.service.UserService;
+import com.soda.service.impl.UserServiceImpl;
+import com.soda.servlet.control.Select;
+import com.soda.servlet.control.SelectById;
+import com.soda.servlet.control.UpdateState;
+import com.soda.servlet.control.UpdateUser;
+
+public class UserServlet extends HttpServlet {
+	
+	
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String param=new String(request.getParameter("param").getBytes("ISO-8859-1"),"utf-8");
+		//全查/模糊查询
+		if(param!=null&&"select".equals(param)){
+			Select s=new Select();
+			s.selectUsers(request, response);
+			
+		}
+		//单查
+		if(param!=null&&"single".equals(param)){
+			
+			SelectById sbi=new SelectById();
+			sbi.selectUserById(request,response);
+			
+		}
+		//编辑
+		if(param!=null&&"edit".equals(param)){
+			
+			UpdateUser uu=new UpdateUser();
+			uu.updateUser(request,response);
+			
+		}
+		//状态修改和删除
+		if(param!=null&&"updateState".equals(param)){
+			
+			UpdateState us=new UpdateState();
+			//
+			us.updateState(request,response);
+		}
+		
+		//添加
+		if(param!=null&&"add".equals(param)){
+			System.out.println("进来了");
+			UpdateUser uu=new UpdateUser();
+			uu.addeUser(request,response);
+		}
+		
+	}
+
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		doGet(request, response);
+	}
+
+}

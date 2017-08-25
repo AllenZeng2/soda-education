@@ -1,0 +1,24 @@
+package com.soda.servlet.control;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.soda.service.UserService;
+import com.soda.service.impl.UserServiceImpl;
+
+public class UpdateState {
+
+	private UserService us=new UserServiceImpl();
+
+	public void updateState(HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		int id=Integer.parseInt(request.getParameter("uid"));
+		int num=Integer.parseInt(request.getParameter("num"));
+		us.updateState(id,num);
+	}
+	
+	
+	
+	
+}

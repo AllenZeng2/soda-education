@@ -1,0 +1,13 @@
+package com.soda;
+
+public class aaaa {
+	private int id;
+
+	public aaaa(int id) {
+		super();
+		this.id = id;
+	}
+	public void print(){
+		System.out.println("++++");
+	}
+}

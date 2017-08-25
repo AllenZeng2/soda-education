@@ -1,0 +1,15 @@
+package com.soda.dao;
+
+import java.util.List;
+
+import com.soda.entity.Course;
+import com.soda.entity.PageInfo;
+import com.soda.entity.Stu_course;
+
+public interface Stu_courseDao {
+
+	List<Stu_course> selectAllMyCourse(PageInfo pi);
+
+	List<Stu_course> selectMohuMycourse(Course course, PageInfo pi);
+
+}

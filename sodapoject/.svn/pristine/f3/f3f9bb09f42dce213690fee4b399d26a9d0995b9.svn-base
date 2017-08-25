@@ -1,0 +1,16 @@
+package com.soda.dao;
+
+import com.soda.entity.Survey;
+
+public interface SurveyDao {
+
+	
+	Survey getSurvey(int i);
+
+	int updateContent(String content,int id);
+
+	Survey getSurveyWithUser(int i);
+
+	int insertSurvey(String content);
+
+}

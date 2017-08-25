@@ -1,0 +1,14 @@
+package com.soda.service;
+
+import com.soda.entity.Course;
+import com.soda.entity.Student;
+
+public interface StudentService {
+
+	Student selectStudentByName(String ur_loginName);
+
+	int updateContent(String content, int id);
+
+	Course AddMyCourse(int studentid, String ce_id);
+}
+

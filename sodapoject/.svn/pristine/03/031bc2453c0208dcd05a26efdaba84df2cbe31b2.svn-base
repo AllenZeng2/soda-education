@@ -1,0 +1,59 @@
+package com.soda.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.soda.entity.Course;
+import com.soda.service.CourseService;
+import com.soda.service.impl.CourseServiceImpl;
+
+public class CourseInfoServlet extends HttpServlet {
+
+	private CourseService cs = new CourseServiceImpl();
+
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		request.setCharacterEncoding("utf-8");
+		int ce_id = 0;
+		if (request.getParameter("ce_id") != null
+				&& request.getParameter("ce_id").length() > 0) {
+			ce_id = Integer.parseInt(request.getParameter("ce_id"));
+		}
+		String param = request.getParameter("param");
+
+		Course course = cs.selestCourseById(ce_id);
+		if(param!=null)
+		switch (Integer.parseInt(request.getParameter("param"))) {
+		case 1:
+			
+			String baoming="报名"; 
+			request.setAttribute("baominggoumai", baoming);
+			request.setAttribute("course", course);
+			request.getRequestDispatcher("qiantai/courseInfo.jsp").forward(
+					request, response);
+			break;
+
+		case 2:
+			String goumai="购买";
+			request.setAttribute("baominggoumai", goumai);
+			request.setAttribute("course", course);
+			request.getRequestDispatcher("qiantai/courseInfo.jsp").forward(
+					request, response);
+			break;
+		}
+
+	}
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		doGet(request, response);
+	}
+
+}

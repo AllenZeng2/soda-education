@@ -1,0 +1,206 @@
+package com.soda.dao.impl;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.soda.dao.BaseDao;
+import com.soda.dao.UserDao;
+import com.soda.entity.ConditionInfo;
+import com.soda.entity.Role;
+import com.soda.entity.User;
+
+public class UserDaoImpl extends BaseDao implements UserDao{
+	
+	
+	
+	//编辑
+	@Override
+	public void updateUser(User user) {
+		// TODO Auto-generated method stub
+		try {
+			getConn();
+			String sql="UPDATE USER SET ur_name=?,ur_password=?,ur_idcard=?,ur_phone=?,ur_address=?,ur_email=?,ur_state=?,ur_roleId=? WHERE ur_id=?";
+			ps=conn.prepareStatement(sql);
+			
+			ps.setString(1, user.getUr_name());
+			ps.setString(2, user.getUr_password());
+			ps.setString(3, user.getUr_idcard());
+			ps.setString(4, user.getUr_phone());
+			ps.setString(5, user.getUr_address());
+			ps.setString(6, user.getUr_email());
+			ps.setInt(7, user.getUr_state());
+			ps.setInt(8, user.getRole().getRe_id());
+			ps.setInt(9, user.getUr_id());
+			ps.executeUpdate();
+			
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			close(conn, ps, res);
+			
+		}
+	}
+	
+
+
+	//通过id查询
+	@Override
+	public User selectUserById(int id) {
+		try {
+			getConn();
+			String sql="SELECT * FROM USER u INNER JOIN role r ON u.ur_roleId=r.re_id WHERE u.ur_id=?";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, id);
+			res=ps.executeQuery();
+			if(res.next()){
+				User u=new User();
+				u.setUr_id(res.getInt(1));
+				u.setUr_loginName(res.getString(3));
+				u.setUr_password(res.getString(4));
+				u.setUr_name(res.getString(2));
+				u.setUr_idcard(res.getString(5));
+				u.setUr_sex(res.getInt(7));
+				u.setUr_phone(res.getString(6));
+				u.setUr_address(res.getString(8));
+				u.setUr_email(res.getString(9));
+				u.setUr_state(res.getInt(10));
+				Role r=new Role();
+				r.setRe_id(res.getInt(15));
+				r.setRe_name(res.getString(16));
+				r.setRe_state(res.getInt(17));
+				r.setRe_remark(res.getString(18));
+				u.setRole(r);
+				return u;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			close(conn, ps, res);
+			
+		}
+		return null;
+	}
+	
+	
+	
+	//信息查询
+	@Override
+	public List<User> selectUsers(ConditionInfo cf) {
+		try {
+			getConn();
+			StringBuffer sql=new StringBuffer("SELECT * FROM USER WHERE 1=1");
+
+			if(cf.getLoginName()!=null&&cf.getLoginName().length()>0){
+				sql.append(" and ur_loginName like ?");
+			}
+			if(cf.getRealName()!=null&&cf.getRealName().length()>0){
+				sql.append(" and ur_name like ?");
+			}
+			if(cf.getState()==1||cf.getState()==0){
+				sql.append(" and ur_state=?");
+			}
+			sql.append(" limit ?,?");
+			
+			ps=conn.prepareStatement(sql.toString());
+			
+			int temp=1;
+			if(cf.getLoginName()!=null&&cf.getLoginName().length()>0){
+				ps.setString(temp, cf.getLoginName()+"%");
+				temp++;
+			}
+			if(cf.getRealName()!=null&&cf.getRealName().length()>0){
+				ps.setString(temp,cf.getRealName()+"%");
+				temp++;
+			}
+			if(cf.getState()==1||cf.getState()==0){
+				ps.setInt(temp, cf.getState());
+				temp++;
+			}
+			
+			ps.setInt(temp, cf.getItemsEveryPage()*(cf.getCurrentPage()-1));
+			temp++;
+			ps.setInt(temp, cf.getItemsEveryPage());
+		
+			
+			res=ps.executeQuery();
+			List<User> list=new ArrayList<User>();
+			
+			while(res.next()){
+				User user=new User();
+				user.setUr_id(res.getInt(1));
+				user.setUr_name(res.getString(2));
+				user.setUr_loginName(res.getString(3));
+				user.setUr_phone(res.getString(6));
+				user.setUr_address(res.getString(8));
+				user.setUr_email(res.getString(9));
+				user.setUr_state(res.getInt(10));
+				list.add(user);
+				
+			}
+			return list;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			close(conn, ps, res);
+			
+		}
+		return null;
+	}
+	
+	//获得信息
+	@Override
+	public Integer getTotalPages(ConditionInfo cf) {
+		try {
+			getConn();
+			StringBuffer sql=new StringBuffer("SELECT count(1) FROM USER WHERE 1=1");
+
+			if(cf.getLoginName()!=null&&cf.getLoginName().length()>0){
+				sql.append(" and ur_loginName like ?");
+			}
+			if(cf.getRealName()!=null&&cf.getRealName().length()>0){
+				sql.append(" and ur_name like ?");
+			}
+			if(cf.getState()==1||cf.getState()==0){
+				sql.append(" and ur_state=?");
+			}
+			
+			
+			ps=conn.prepareStatement(sql.toString());
+			
+			int temp=1;
+			if(cf.getLoginName()!=null&&cf.getLoginName().length()>0){
+				ps.setString(temp, cf.getLoginName()+"%");
+				temp++;
+			}
+			if(cf.getRealName()!=null&&cf.getRealName().length()>0){
+				ps.setString(temp,cf.getRealName()+"%");
+				temp++;
+			}
+			if(cf.getState()==1||cf.getState()==0){
+				ps.setInt(temp, cf.getState());
+				temp++;
+			}
+			
+			res=ps.executeQuery();
+			//List<User> list=new ArrayList<User>();
+			if(res.next()){
+				return res.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			close(conn, ps, res);
+			
+		}
+		return 0;
+	}
+}

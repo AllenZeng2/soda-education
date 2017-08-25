@@ -1,0 +1,17 @@
+package com.soda.service;
+
+import com.soda.entity.Survey;
+
+public interface SurveyService {
+
+	int updateContent(String content, int i);
+
+	Survey getSurveyWithUser(int i);
+
+	Survey getSurvey(int i);
+
+	int insertSurvey(String content);
+
+	
+}
+

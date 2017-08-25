@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="sodapoject"
+  id="myeclipse.1495023787535"
+  context-root="/sodapoject"
+  j2ee-spec="5.0"
+  archive="sodapoject.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

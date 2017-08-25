@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<display-name></display-name>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	<!--毛雨坤  -->
+ <servlet>
+    <servlet-name>xianchangServlet</servlet-name>
+    <servlet-class>com.soda.servlet.xianchangServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CourseInfoServlet</servlet-name>
+    <servlet-class>com.soda.servlet.CourseInfoServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SurveyServlet</servlet-name>
+    <servlet-class>com.soda.servlet.SurveyServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ZaixianServlet</servlet-name>
+    <servlet-class>com.soda.servlet.ZaixianServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>IndexServlet</servlet-name>
+    <servlet-class>com.soda.servlet.IndexServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>InfoServlet</servlet-name>
+    <servlet-class>com.soda.servlet.InfoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>xianchangServlet</servlet-name>
+    <url-pattern>/xianchangServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CourseInfoServlet</servlet-name>
+    <url-pattern>/CourseInfoServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SurveyServlet</servlet-name>
+    <url-pattern>/SurveyServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ZaixianServlet</servlet-name>
+    <url-pattern>/ZaixianServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>IndexServlet</servlet-name>
+    <url-pattern>/IndexServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>InfoServlet</servlet-name>
+    <url-pattern>/InfoServlet</url-pattern>
+  </servlet-mapping>
+	
+<!--毛雨坤  -->
+ <!-- yinjiashuo -->
+	<servlet>
+		<servlet-name>NewsServlet</servlet-name>
+		<servlet-class>com.soda.servlet.NewsServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>UpdateNewsByIdServlet</servlet-name>
+		<servlet-class>com.soda.servlet.UpdateNewsByIdServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>SelectNewsServlet</servlet-name>
+		<servlet-class>com.soda.servlet.SelectNewsServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>SelectNewsByIdServlet</servlet-name>
+		<servlet-class>com.soda.servlet.SelectNewsByIdServlet</servlet-class>
+	</servlet>
+
+
+
+
+	<servlet>
+		<servlet-name>DleNewsByIdServlet</servlet-name>
+		<servlet-class>com.soda.servlet.DleNewsByIdServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>DleNewsByIdServlet</servlet-name>
+		<url-pattern>/DleNewsByIdServlet</url-pattern>
+	</servlet-mapping>
+
+
+
+
+	<servlet-mapping>
+		<servlet-name>SelectNewsByIdServlet</servlet-name>
+		<url-pattern>/SelectNewsByIdServlet</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SelectNewsByidServlet</servlet-name>
+		<servlet-class>com.soda.servlet.SelectNewsByidServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AddNewsServlet</servlet-name>
+		<servlet-class>com.soda.servlet.AddNewsServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>SelectNoticesServlet</servlet-name>
+		<servlet-class>com.soda.servlet.noticeServlet.SelectNoticesServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>UpdateStateByIdServlet</servlet-name>
+		<servlet-class>com.soda.servlet.UpdateStateByIdServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>UpdateStatusByIdServlet</servlet-name>
+		<servlet-class>com.soda.servlet.UpdateStatusByIdServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>NewsExceServlet</servlet-name>
+		<servlet-class>com.soda.servlet.NewsExceServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>InformationServlet</servlet-name>
+		<servlet-class>com.soda.servlet.InformationServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>NoticeServlet</servlet-name>
+		<servlet-class>com.soda.servlet.NoticeServlet</servlet-class>
+	</servlet>
+
+
+
+	<servlet-mapping>
+		<servlet-name>DleNewsByIdServlet</servlet-name>
+		<url-pattern>/DleNewsByIdServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>NewsServlet</servlet-name>
+		<url-pattern>/NewsServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UpdateNewsByIdServlet</servlet-name>
+		<url-pattern>/UpdateNewsByIdServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SelectNewsServlet</servlet-name>
+		<url-pattern>/SelectNewsServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SelectNewsByIdServlet</servlet-name>
+		<url-pattern>/SelectNewsByIdServlet</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet-mapping>
+		<servlet-name>SelectNewsByidServlet</servlet-name>
+		<url-pattern>/SelectNewsByidServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AddNewsServlet</servlet-name>
+		<url-pattern>/AddNewsServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SelectNoticesServlet</servlet-name>
+		<url-pattern>/SelectNoticesServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UpdateStateByIdServlet</servlet-name>
+		<url-pattern>/UpdateStateByIdServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UpdateStatusByIdServlet</servlet-name>
+		<url-pattern>/UpdateStatusByIdServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>NewsExceServlet</servlet-name>
+		<url-pattern>/NewsExceServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>InformationServlet</servlet-name>
+		<url-pattern>/InformationServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>NoticeServlet</servlet-name>
+		<url-pattern>/NoticeServlet</url-pattern>
+	</servlet-mapping>
+
+
+	<!-- yinjiashuo -->
+
+	<!-- 施维 -->
+	<servlet>
+
+		<servlet-name>LoginServlet</servlet-name>
+		<servlet-class>com.soda.servlet.LoginServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>QianLoginServelt</servlet-name>
+		<servlet-class>com.soda.servlet.QianLoginServelt</servlet-class>
+	</servlet>
+
+
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/LoginServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>QianLoginServelt</servlet-name>
+		<url-pattern>/QianLoginServelt</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>LoginOutServlet</servlet-name>
+		<servlet-class>com.soda.servlet.LoginOutServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoginOutServlet</servlet-name>
+		<url-pattern>/LoginOutServlet</url-pattern>
+	</servlet-mapping>
+	<!-- 施维 -->
+
+
+	<!-- 曾和清 -->
+	<servlet>
+		<servlet-name>UserServlet</servlet-name>
+		<servlet-class>com.soda.servlet.UserServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>RoleServlet</servlet-name>
+		<servlet-class>com.soda.servlet.RoleServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>MenuServlet</servlet-name>
+		<servlet-class>com.soda.servlet.MenuServlet</servlet-class>
+	</servlet>
+
+
+	<servlet-mapping>
+		<servlet-name>UserServlet</servlet-name>
+		<url-pattern>/UserServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RoleServlet</servlet-name>
+		<url-pattern>/RoleServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>MenuServlet</servlet-name>
+		<url-pattern>/MenuServlet</url-pattern>
+	</servlet-mapping>
+	<!-- 曾和清 -->
+
+
+	<!-- 过滤器 -->
+	<filter>
+		<filter-name>Resource</filter-name>
+		<filter-class>com.soda.servlet.control.ResourceFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Resource</filter-name>
+		<url-pattern>/RoleServlet</url-pattern>
+		<url-pattern>/UserServlet</url-pattern>
+		<url-pattern>/MenuServlet</url-pattern>
+		<!--<url-pattern>/LoopServlet</url-pattern> <url-pattern>*.do</url-pattern> -->
+		<!--<url-pattern>/*</url-pattern> -->
+	</filter-mapping>
+
+
+	<filter>
+		<filter-name>JspFileter</filter-name>
+		<filter-class>com.soda.servlet.control.JspFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>JspFileter</filter-name>
+		<url-pattern>/houtai/main.jsp</url-pattern>
+
+		<url-pattern>/houtai/pages/role/list.jsp</url-pattern>
+		<url-pattern>/houtai/pages/role/edit.jsp</url-pattern>
+		<url-pattern>/houtai/pages/role/detail.jsp</url-pattern>
+		<url-pattern>/houtai/pages/role/add.jsp</url-pattern>
+
+		<url-pattern>/houtai/pages/user/list.jsp</url-pattern>
+		<url-pattern>/houtai/pages/user/edit.jsp</url-pattern>
+		<url-pattern>/houtai/pages/user/detail.jsp</url-pattern>
+		<url-pattern>/houtai/pages/user/add.jsp</url-pattern>
+
+		<url-pattern>/houtai/pages/menu/list.jsp</url-pattern>
+		<url-pattern>/houtai/pages/menu/edit.jsp</url-pattern>
+		<url-pattern>/houtai/pages/menu/detail.jsp</url-pattern>
+		<url-pattern>/houtai/pages/menu/add.jsp</url-pattern>
+
+	</filter-mapping>
+	<!-- 过滤器 -->
+  
+  
+
+	<!-- 李超强 -->
+	<servlet>
+		<servlet-name>SynopsisServlet</servlet-name>
+		<servlet-class>com.soda.servlet.SynopsisServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ConcerningUsServlet</servlet-name>
+		<servlet-class>com.soda.servlet.ConcerningUsServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>CopyrightStateServlet</servlet-name>
+		<servlet-class>com.soda.servlet.CopyrightStateServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>IndustryServlet</servlet-name>
+		<servlet-class>com.soda.servlet.IndustryServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ContactServlet</servlet-name>
+		<servlet-class>com.soda.servlet.ContactServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>IndustryServlet</servlet-name>
+		<url-pattern>/IndustryServlet</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet-mapping>
+		<servlet-name>SynopsisServlet</servlet-name>
+		<url-pattern>/SynopsisServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ConcerningUsServlet</servlet-name>
+		<url-pattern>/ConcerningUsServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>CopyrightStateServlet</servlet-name>
+		<url-pattern>/CopyrightStateServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>ContactServlet</servlet-name>
+		<url-pattern>/ContactServlet</url-pattern>
+	</servlet-mapping>
+
+
+
+	<!-- 李超强 -->
+
+    
+    
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>
